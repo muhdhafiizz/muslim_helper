@@ -63,7 +63,9 @@ Widget _buildHalalVerify() {
 }
 
 Widget _buildMuslimCalendar() {
-  return Scaffold();
+  return Scaffold(
+    body: FeatureNotReadyPage(),
+  );
 }
 
 Widget _buildZakatCalculator(BuildContext context) {
