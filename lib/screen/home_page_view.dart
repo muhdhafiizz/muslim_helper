@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hadith_reader/core/app_color.dart';
 import 'package:hadith_reader/screen/hadith_detail_page.dart';
 import 'package:hadith_reader/screen/prayer_detail_page.dart';
+import 'package:hadith_reader/screen/zakat_calculator_page.dart';
 import 'package:provider/provider.dart';
 import '../providers/home_provider.dart';
 import '../widgets/shimmer_loading_widget.dart';
@@ -18,7 +19,7 @@ class HomePageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      final provider = context.read<HadithProvider>();
+    final provider = context.read<HadithProvider>();
 
     Future.microtask(() {
       Provider.of<HadithProvider>(context, listen: false).fetchHadiths();
@@ -42,17 +43,21 @@ class HomePageView extends StatelessWidget {
                 child: ListView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   children: [
+                    _buildGridView(),
                     _buildTimeCoutdown(context),
                     GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PrayerDetailPage(prayer: provider.prayerTimings!,),
+                              builder: (context) => PrayerDetailPage(
+                                prayer: provider.prayerTimings!,
+                              ),
                             ),
                           );
                         },
                         child: _buildTitleSection("Prayer")),
+                    const SizedBox(height: 10),
                     _buildPrayerCard(context),
                     const SizedBox(height: 20),
                     GestureDetector(
@@ -65,6 +70,7 @@ class HomePageView extends StatelessWidget {
                           );
                         },
                         child: _buildTitleSection("Hadith")),
+                    const SizedBox(height: 10),
                     _buildHadithGridView(),
                   ],
                 ),
@@ -285,9 +291,11 @@ Widget _buildPrayerCard(BuildContext context) {
           ),
         );
       },
-      child: Card(
-          color: AppColors.primary,
-          elevation: 4,
+      child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.primary, width: 2),
+            borderRadius: BorderRadius.circular(12),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Consumer<HadithProvider>(
@@ -296,15 +304,6 @@ Widget _buildPrayerCard(BuildContext context) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // const ShimmerLoadingWidget(width: 180, height: 16),
-                      // const SizedBox(height: 5),
-                      // const ShimmerLoadingWidget(width: 100, height: 16),
-                      // const SizedBox(height: 5),
-                      // const ShimmerLoadingWidget(width: 150, height: 16),
-                      // const SizedBox(height: 10),
-                      // const ShimmerLoadingWidget(width: 100, height: 16),
-                      // const SizedBox(height: 10),
-                      // const ShimmerLoadingWidget(width: 180, height: 20),
                       const SizedBox(height: 20),
                       _buildPrayerTimeRow("Fajr", null, true),
                       _buildPrayerTimeRow("Dhuhr", null, true),
@@ -349,16 +348,14 @@ Widget _buildPrayerTimeRow(String name, String? time, bool isLoading) {
       children: [
         isLoading
             ? const ShimmerLoadingWidget(width: 80, height: 16)
-            : Text(name,
-                style: const TextStyle(
-                    fontSize: 16, color: AppColors.textTertiaty)),
+            : Text(name, style: const TextStyle(fontSize: 16)),
         isLoading
             ? const ShimmerLoadingWidget(width: 50, height: 16)
             : Text(time ?? "--:--",
                 style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textTertiaty)),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                )),
       ],
     ),
   );
@@ -369,7 +366,7 @@ Widget _buildTimeCoutdown(BuildContext context) {
     padding: const EdgeInsets.all(20),
     margin: const EdgeInsets.symmetric(vertical: 10),
     decoration: BoxDecoration(
-      color: AppColors.textTertiaty,
+      color: AppColors.secondary,
       borderRadius: BorderRadius.circular(10),
     ),
     child: Consumer<HadithProvider>(
@@ -425,6 +422,60 @@ Widget _buildTimeCoutdown(BuildContext context) {
                   )
                 : ShimmerLoadingWidget(width: 120, height: 25),
           ],
+        );
+      },
+    ),
+  );
+}
+
+Widget _buildGridView() {
+  final items = [
+    {'icon': Icons.calculate, 'label': 'Zakat \nCalculator'},
+    {'icon': Icons.local_drink, 'label': 'Halal \nVerify'},
+    {'icon': Icons.calendar_month, 'label': 'Muslim \nCalendar'},
+  ];
+
+  return SizedBox(
+    height: 120,
+    child: GridView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: items.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 1,
+      ),
+      itemBuilder: (context, index) {
+        final item = items[index];
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.brown[100],
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: GestureDetector(
+            onTap: () {
+              print("It is tapped ${item[index]}");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ZakatCalculatorPage()),
+              );
+            },
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(item['icon'] as IconData,
+                    size: 30, color: Colors.brown[700]),
+                const SizedBox(height: 8),
+                Text(
+                  item['label'] as String,
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
         );
       },
     ),

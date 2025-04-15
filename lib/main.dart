@@ -6,6 +6,10 @@ import 'package:hadith_reader/providers/bottom_navbar_provier.dart';
 import 'package:hadith_reader/providers/masjid_details_provider.dart';
 import 'package:hadith_reader/providers/qibla_finder_provider.dart';
 import 'package:hadith_reader/providers/search_provider.dart';
+import 'package:hadith_reader/providers/zakat/fidyah_provider.dart';
+import 'package:hadith_reader/providers/zakat/zakat_kwsp_provider.dart';
+import 'package:hadith_reader/providers/zakat/zakat_saham_provider.dart';
+import 'package:hadith_reader/providers/zakat/zakat_simpanan_provider.dart';
 import 'package:hadith_reader/widgets/bottom_navbar.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +29,11 @@ void main() async {
       ChangeNotifierProvider(create: (_) => SearchProvider()),
       ChangeNotifierProvider(create: (_) => ProfileProvider()),
       ChangeNotifierProvider(create: (_) => MasjidProvider()),
-      ChangeNotifierProvider(create: (_) => QiblaProvider())
+      ChangeNotifierProvider(create: (_) => QiblaProvider()),
+      ChangeNotifierProvider(create: (_) => FidyahProvider()),
+      ChangeNotifierProvider(create: (_) => ZakatKwspProvider()),
+      ChangeNotifierProvider(create: (_) => ZakatSimpananProvider()),
+      ChangeNotifierProvider(create: (_) => ZakatSahamProvider()),
     ],
     child: const MyApp(),
   ));
@@ -42,7 +50,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
         useMaterial3: true,
         primaryColor: AppColors.primary,
-        scaffoldBackgroundColor: AppColors.secondary,
+        scaffoldBackgroundColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,
       home: const AuthWrapper(),
