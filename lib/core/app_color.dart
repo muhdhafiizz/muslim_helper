@@ -5,6 +5,7 @@ class AppColors {
   static const Color primary = Color(0xFF2772A0); // Ocean Blue
   static const Color secondary = Color(0xFFCCDDEA); // Cloudy Sky
   static const Color textTertiaty = Color(0xFFF5F5DC); //beige
+  static const Color lightYellow = Color(0xFFFFEE58); //beige
 
   // Accent Colors
   static const Color accent = Color(0xFFFF6B6B); // Sunset Coral

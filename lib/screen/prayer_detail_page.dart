@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hadith_reader/screen/masjid_locator_page.dart';
+import 'package:hadith_reader/widgets/buttons.dart';
 import 'package:provider/provider.dart';
 
 import '../core/app_color.dart';
@@ -33,7 +34,10 @@ class PrayerDetailPage extends StatelessWidget {
                 const SizedBox(width: 10),
                 const Text(
                   "Prayer",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: AppColors.textPrimary),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: AppColors.textPrimary),
                 ),
               ],
             ),
@@ -199,24 +203,20 @@ Widget _buildTimeCoutdown(BuildContext context) {
 }
 
 Widget _buildMasjidLocatorButton(BuildContext context) {
-  return Center(
-      child: ElevatedButton(
-    style: ButtonStyle(
-      backgroundColor: WidgetStateProperty.all<Color>(AppColors.primary),
-      foregroundColor: WidgetStateProperty.all<Color>(AppColors.textTertiaty),
+  return Buttons(
+    iconData: Icons.map,
+    text: "Locate nearest Masjid",
+    onTap: () => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MasjidLocatorPage(),
+      ),
     ),
-    onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MasjidLocatorPage(),
-        ),
-      );
-    },
-    child: const Text(
-      "Locate nearest Masjid",
-    ),
-  ));
+    backgroundColor: AppColors.success,
+    textColor: Colors.white,
+    borderColor: AppColors.success,
+    isFilled: true,
+  );
 }
 
 String _formatDuration(Duration duration) {
