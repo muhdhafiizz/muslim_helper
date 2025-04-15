@@ -4,6 +4,7 @@ import 'package:hadith_reader/providers/zakat/fidyah_provider.dart';
 import 'package:hadith_reader/providers/zakat/zakat_kwsp_provider.dart';
 import 'package:hadith_reader/providers/zakat/zakat_simpanan_provider.dart';
 import 'package:hadith_reader/widgets/buttons.dart';
+import 'package:hadith_reader/widgets/feature_not_ready_page.dart';
 import 'package:hadith_reader/widgets/formatting.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -36,22 +37,7 @@ class ZakatCalculatorDetailPage extends StatelessWidget {
     } else if (title.toLowerCase() == 'investment zakat') {
       content = buildZakatSahamWidget();
     } else {
-      content = Center(
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Lottie.asset(
-                'assets/lottie/analysis_options.json',
-              ),
-              const SizedBox(height: 12),
-              const Text('Work is in Progress...'),
-            ],
-          ),
-        ),
-      );
+      content = FeatureNotReadyPage();
     }
 
     return Scaffold(

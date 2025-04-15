@@ -430,9 +430,9 @@ Widget _buildTimeCoutdown(BuildContext context) {
 
 Widget _buildGridView() {
   final items = [
-    {'icon': Icons.calculate, 'label': 'Zakat \nCalculator'},
-    {'icon': Icons.local_drink, 'label': 'Halal \nVerify'},
-    {'icon': Icons.calendar_month, 'label': 'Muslim \nCalendar'},
+    {'icon': Icons.calculate, 'label': 'Zakat Calculator'},
+    {'icon': Icons.local_drink, 'label': 'Halal Verify'},
+    {'icon': Icons.calendar_month, 'label': 'Muslim Calendar'},
   ];
 
   return SizedBox(
@@ -455,25 +455,35 @@ Widget _buildGridView() {
           ),
           child: GestureDetector(
             onTap: () {
-              print("It is tapped ${item[index]}");
+              final label = item['label'] as String;
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ZakatCalculatorPage()),
+                MaterialPageRoute(
+                    builder: (context) => ZakatCalculatorPage(title: label)),
               );
             },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(item['icon'] as IconData,
-                    size: 30, color: Colors.brown[700]),
-                const SizedBox(height: 8),
-                Text(
-                  item['label'] as String,
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20.0, left: 20.0),
+                child: Column(
+                  mainAxisSize:
+                      MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(item['icon'] as IconData,
+                        size: 30, color: Colors.brown[700]),
+                    const SizedBox(height: 8),
+                    Text(
+                      item['label'] as String,
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         );
