@@ -28,8 +28,6 @@ class ZakatCalculatorDetailPage extends StatelessWidget {
 
     if (title.toLowerCase() == 'fidyah') {
       content = _buildFidyahWidget();
-    } else if (title.toLowerCase() == 'income zakat') {
-      content = _buildZakatPendapatanWidget();
     } else if (title.toLowerCase() == 'kwsp zakat') {
       content = _buildZakatKWSPWidget();
     } else if (title.toLowerCase() == 'savings zakat') {

@@ -84,6 +84,7 @@ flutter:
   assets:
     - assets/icon/app_icon.png
     - assets/lottie/analysis_options.json
+    - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hadith_reader/core/app_color.dart';
 import 'package:hadith_reader/providers/bottom_navbar_provier.dart';
 import 'package:hadith_reader/providers/masjid_details_provider.dart';
@@ -20,7 +21,7 @@ import 'screen/login_page_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await dotenv.load();
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MultiProvider(
     providers: [

@@ -4,6 +4,7 @@ import 'package:hadith_reader/providers/bottom_navbar_provier.dart';
 import 'package:hadith_reader/screen/home_page_view.dart';
 import 'package:hadith_reader/screen/profile_page_view.dart';
 import 'package:hadith_reader/screen/qibla_finder_page.dart';
+import 'package:hadith_reader/widgets/feature_not_ready_page.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavView extends StatelessWidget {
@@ -11,7 +12,7 @@ class BottomNavView extends StatelessWidget {
 
   final List<Widget> _screens = [
     const HomePageView(),
-    const QiblaFinderPage(),
+    const FeatureNotReadyPage(),
     const ProfileView(),
   ];
 

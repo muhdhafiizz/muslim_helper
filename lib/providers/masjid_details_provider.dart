@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:hadith_reader/providers/home_provider.dart';
+import '../core/utils/location_helper.dart';
 import '../core/utils/map_helper.dart';
 import '../model/masjid_detail_model.dart';
 import '../service/masjid_locator_service.dart';
-
 
 class MasjidProvider with ChangeNotifier {
   final MasjidLocatorService _masjidServce = MasjidLocatorService();
@@ -12,6 +12,8 @@ class MasjidProvider with ChangeNotifier {
   List<Masjid> masjids = [];
   bool isLoading = false;
   String errorMessage = "";
+  double? currentLat;
+  double? currentLng;
 
   MasjidProvider() {
     fetchMasjids();
@@ -26,20 +28,32 @@ class MasjidProvider with ChangeNotifier {
 
     try {
       debugPrint("Fetching current location...");
-      final position = await HadithProvider
-          .determinePosition();
-      final lat = position.latitude;
-      final lng = position.longitude;
+      final position = await HadithProvider.determinePosition();
+      currentLat = position.latitude;
+      currentLng = position.longitude;
 
-      print("Here is $lat");
-      print("Here is $lng");
+      masjids = await _masjidServce.getNearbyMasjids(currentLat!, currentLng!);
 
-
-      masjids = await _masjidServce.getNearbyMasjids(lat, lng);
-    } catch (e) {
+      masjids.sort((a, b) {
+        final distanceA = LocationHelper.calculateDistance(
+          currentLat!,
+          currentLng!,
+          a.latitude,
+          a.longitude,
+        );
+        final distanceB = LocationHelper.calculateDistance(
+          currentLat!,
+          currentLng!,
+          b.latitude,
+          b.longitude,
+        );
+        return distanceA.compareTo(distanceB);
+      });
+    } catch (e, stacktrace) {
       errorMessage = e.toString();
       masjids = [];
       debugPrint("Exception: $e");
+      debugPrint("Stacktrace: $stacktrace");
     }
 
     isLoading = false;

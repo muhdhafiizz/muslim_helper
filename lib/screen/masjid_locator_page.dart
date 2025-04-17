@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hadith_reader/widgets/shimmer_loading_widget.dart';
 import 'package:provider/provider.dart';
 import '../core/app_color.dart';
+import '../core/utils/location_helper.dart' show LocationHelper;
 import '../providers/masjid_details_provider.dart';
 import '../../core/utils/api_constants.dart';
 
@@ -61,6 +62,18 @@ class MasjidLocatorPage extends StatelessWidget {
                           itemCount: masjidProvider.masjids.length,
                           itemBuilder: (context, index) {
                             final masjid = masjidProvider.masjids[index];
+                            double? distanceKm;
+
+                            if (masjidProvider.currentLat != null &&
+                                masjidProvider.currentLng != null) {
+                              distanceKm = LocationHelper.calculateDistance(
+                                masjidProvider.currentLat!,
+                                masjidProvider.currentLng!,
+                                masjid.latitude,
+                                masjid.longitude,
+                              );
+                            }
+
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: GestureDetector(
@@ -88,9 +101,10 @@ class MasjidLocatorPage extends StatelessWidget {
                                     Text(
                                       masjid.name,
                                       style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.primary),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primary,
+                                      ),
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
@@ -100,23 +114,38 @@ class MasjidLocatorPage extends StatelessWidget {
                                         color: AppColors.textPrimary,
                                       ),
                                     ),
+                                    SizedBox(height: 10),
                                     Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          masjid.rating.toString(),
+                                        Row(
+                                          children: [
+                                            Text(masjid.rating.toString()),
+                                            const SizedBox(width: 5),
+                                            RatingBarIndicator(
+                                              itemBuilder: (context, index) =>
+                                                  const Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              ),
+                                              rating: masjid.rating ?? 0.0,
+                                              itemCount: 5,
+                                              itemSize: 20.0,
+                                              direction: Axis.horizontal,
+                                            ),
+                                          ],
                                         ),
-                                        const SizedBox(width: 5,),
-                                        RatingBarIndicator(
-                                          itemBuilder: (context, index) =>
-                                              const Icon(
-                                            Icons.star,
-                                            color: Colors.amber,
+                                        if (distanceKm != null)
+                                          Text(
+                                            "${distanceKm.toStringAsFixed(2)} km away",
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: AppColors.textPrimary,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            textAlign: TextAlign.end,
                                           ),
-                                          rating: masjid.rating ?? 0.0,
-                                          itemCount: 5,
-                                          itemSize: 20.0,
-                                          direction: Axis.horizontal,
-                                        )
                                       ],
                                     ),
                                     const Divider(color: AppColors.primary),
