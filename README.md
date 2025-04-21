@@ -52,8 +52,8 @@ Local Storage: SharedPreferences (optional)
 🌙 Islamic UI: Clean and user-friendly design with a spiritual touch.
 
 ## Future Improvements
-Add Quran reader with audio and tafsir support.
+Add DuitNow QR to each masjid
 
-Implement dark mode for better night-time usability.
+Add Halal Verify
 
 Add support for multilingual content.
